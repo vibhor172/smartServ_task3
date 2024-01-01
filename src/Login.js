@@ -1,68 +1,97 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  const [username, setUsername] = useState("");
+const Login = (props) => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(username)) {
-      setError("Invalid email format");
-      return;
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  
+  const navigate = useNavigate();
+  
+  const validatePassword = (pass) => {
+    if (pass.length < 6) {
+      return "Password must be at least 6 characters long.";
     }
-
-    if (
-      !/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-        password
-      )
-    ) {
-      setError("Invalid password format");
-      return;
+    if (!/[A-Z]/.test(pass)) {
+      return "Password must contain an uppercase letter.";
     }
-
-    if (password !== "SmartServTest@123") {
-      setError("Invalid password");
-      return;
+    if (!/[0-9]/.test(pass)) {
+      return "Password must contain a number.";
     }
-
-    // redirect to dashboard page
+    if (!/^[@a-zA-Z0-9]+$/.test(pass)) {
+      return "Password should not accept special characters other than @.";
+    }
+    return "";
   };
 
-  return (
-    <div className="login-page">
-      <div className="login-container">
-        <img
-          src="https://financesonline.com/uploads/2021/02/smartserv-logo.png"
-          alt="SMARTSERV"
-        />
-        <form onSubmit={handleSubmit}>
-          <h2>Login</h2>
+  const handlePasswordChange = (ev) => {
+    const pass = ev.target.value;
+    setPassword(pass);
+    setPasswordError(validatePassword(pass));
+  };
+
+  const Submit = (e) => {
+    e.preventDefault();
+    const emailRegex = /^[^\s@]+@[^@\s]+$/;
+
+    if (emailRegex.test(email) === false) {
+      setEmailError("Please enter a valid email address.");
+      return; 
+    }
+
+    if (password === "SmartServTest@123")  {
+      navigate("/dashboard");
+    } else {
+      setPasswordError("Invalid username or password");
+    }
+  };
+
+  return (<div className="login-page">
+    <div className={"login-container"}>
+      <form className="form" onSubmit={Submit}>
+        
+          <img src="https://financesonline.com/uploads/2021/02/smartserv-logo.png" alt="" />
+       
+        <br />
+        <div className={"inputContainer"}>
           <input
-            type="email"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Email"
+            value={email}
             required
+            placeholder="Username"
+            onChange={(ev) => setEmail(ev.target.value)}
+            className={"inputBox"}
           />
+          <label className="errorLabel">{emailError}</label>
+        </div>
+        <br />
+        <div className={"inputContainer"}>
           <input
-            type="password"
-            name="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
+            type="password"
             required
+            placeholder="Password"
+            onChange={handlePasswordChange}
+            className={"inputBox"}
           />
-          {error && <p className="error">{error}</p>}
-          <button type="submit">Login</button>
-        </form>
-      </div>
+          <br />
+          <label className="errorLabel">{passwordError}</label>
+        </div>
+        <br />
+        <div className={"inputContainer"}>
+          <button className={"inputButton"} type="submit">
+            Login
+          </button>
+          <br />
+          <br />
+          <a href="mailto:support@smartserv.io">Forgot your password?</a>
+        </div>
+      </form>
+    </div>
     </div>
   );
 };
 
 export default Login;
+

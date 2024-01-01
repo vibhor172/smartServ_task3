@@ -1,0 +1,48 @@
+.Dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .mainDashboard {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: lightgrey;
+    justify-content: flex-start;
+  }
+  
+  .bar {
+    width: 45%;
+    background-color: white;
+  }
+  
+  .allMetrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    padding: 10px 20px;
+    padding-left: 0px;
+    gap: 20px;
+  }
+  
+  .allCharts {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* height: Adjust this value to fit your content without overflowing. */
+    width: 90%;
+    gap: 10px;
+  }
+  
+  .metrics {
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    border-left: 10px solid rgb(65, 191, 153);
+    text-align: left;
+    padding-left: 10px;
+    background-color: white;
+  }
