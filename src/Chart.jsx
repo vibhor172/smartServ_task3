@@ -51,7 +51,7 @@ const BarChart = ({ heading, labels, data,max }) => {
         chartInstance.current.destroy();
       }
     };
-  }, []); // Empty dependency array ensures this runs once when the component mounts
+  },  [data, labels, max]); // Empty dependency array ensures this runs once when the component mounts
 
   return (
     <div style={{ textAlign: "left", boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" }}>
